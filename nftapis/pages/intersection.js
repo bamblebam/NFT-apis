@@ -29,7 +29,7 @@ export default function Intersection() {
     const nfts = [];
     response2.forEach((element) => {
       if (ids.has(element.owner_of)) {
-        nfts.push(element);
+        nfts.push(element.owner_of);
       }
     });
     setnfts(nfts);
@@ -59,8 +59,8 @@ export default function Intersection() {
       {nfts.map((nft, index) => {
         return (
           <div key={index}>
-            <p>{nft.owner_of}</p>
-            <p>{nft.token_id}</p>
+            <p>{nft}</p>
+            <p>{nft}</p>
           </div>
         );
       })}
