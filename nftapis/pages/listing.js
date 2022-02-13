@@ -29,7 +29,7 @@ export default function Listing() {
     console.log(response);
     //get only the nfts that are buys and less than 120 days old
     const validNfts = [];
-    response.forEach((element) => {
+    response.forEach(async (element) => {
       if (
         element.to === owner &&
         Date.now() - 60 * 60 * 24 * 120 * 1000 <= element.timeStamp * 1000
@@ -37,6 +37,23 @@ export default function Listing() {
         validNfts.push(element);
       }
     });
+    console.log(validNfts.length);
+
+    validNfts.forEach(async (element) => {
+      let hash = element.hash;
+      //get value of transaction
+      let data = await axios.get(
+        `https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash=${hash}&apikey=${etherscanKey}`
+      );
+      if (data.data.result === "Max rate limit reached") {
+        element.value = 0;
+      } else {
+        let value = parseInt(data.data.result.value, 16);
+        let valueInEth = Web3.utils.fromWei(String(value), "ether");
+        element.value = valueInEth;
+      }
+    });
+    // const url = `https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash=${hash}&apikey=YourApiKeyToken`;
     //sort the nfts to mint and buys. If from address is token address it is a mint
     let tempbuys = [];
     let tempmints = [];
@@ -75,6 +92,7 @@ export default function Listing() {
             <p>Contract Address - {nft.contractAddress}</p>
             <p>Token Name - {nft.tokenName}</p>
             <p>TimeStamp - {nft.timeStamp}</p>
+            <p>Value - {nft.value}</p>
             <hr />
           </div>
         );
@@ -88,6 +106,7 @@ export default function Listing() {
             <p>Contract Address - {nft.contractAddress}</p>
             <p>Token Name - {nft.tokenName}</p>
             <p>TimeStamp - {nft.timeStamp}</p>
+            <p>Value - {nft.value}</p>
             <hr />
           </div>
         );
