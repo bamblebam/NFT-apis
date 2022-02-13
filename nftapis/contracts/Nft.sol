@@ -27,6 +27,10 @@ contract BambleNFTs is ERC721URIStorage, Ownable {
         require(sent, "Failed");
     }
 
+    function tokenURI() external view returns (string memory) {
+        return _baseTokenURI;
+    }
+
     // recieve() external payable{}
     // fallback() external payable{}
 }

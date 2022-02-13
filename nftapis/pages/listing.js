@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Moralis } from "moralis";
 const axios = require("axios");
 // import { Web3 } from "web3";
@@ -58,7 +58,10 @@ export default function Listing() {
     let tempbuys = [];
     let tempmints = [];
     validNfts.forEach((element) => {
-      if (element.from === element.contractAddress) {
+      if (
+        element.from === element.contractAddress ||
+        element.from === "0x0000000000000000000000000000000000000000"
+      ) {
         tempmints.push(element);
       } else {
         tempbuys.push(element);
@@ -70,6 +73,7 @@ export default function Listing() {
     console.log(tempbuys);
     console.log(tempmints);
   }
+
   return (
     <Fragment>
       <h1>Listing</h1>

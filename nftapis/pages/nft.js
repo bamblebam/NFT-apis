@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, Fragment } from "react";
 import Web3Moddal from "web3modal";
 
 const ABI = require("../artifacts/contracts/Nft.sol/BambleNFTs.json").abi;
-const CONTRACT_ADDRESS = "0x4Dc082F0c8cC156684b612dA9ff9Fe6021f8F048";
+const CONTRACT_ADDRESS = "0x9731E44F328a45c150691B6ed2396a28eA69e2C7";
 
 export default function Nfts() {
   const [walletConnected, setWalletConnected] = useState(false);
@@ -68,8 +68,7 @@ export default function Nfts() {
       });
       connectWallet();
     }
-  }),
-    [walletConnected];
+  }, [walletConnected]);
 
   const renderContent = () => {
     if (!walletConnected) {
