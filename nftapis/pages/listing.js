@@ -10,19 +10,20 @@ export default function Listing() {
   const [mints, setmints] = useState([]);
   const [owner, setOwner] = useState("");
   const [balance, setBalance] = useState(0);
+  const etherscanKey = process.env.NEXT_PUBLIC_ETHERSCAN_KEY;
 
   async function getEvents(e) {
     e.preventDefault();
     //Get balance of the account
     const tempbalance = await axios.get(
-      `https://api.etherscan.io/api?module=account&action=balance&address=${owner}&tag=latest&apikey=YourApiKeyToken`
+      `https://api.etherscan.io/api?module=account&action=balance&address=${owner}&tag=latest&apikey=${etherscanKey}`
     );
     const ethVal = Web3.utils.fromWei(tempbalance.data.result, "ether");
     setBalance(ethVal);
     //get all the erc-721 transactions for the particular address
     // const owner = "0x213178de4cc876a18a9cb6f3ed6ea71d0856601a";
     const nfts = await axios.get(
-      `https://api.etherscan.io/api?module=account&action=tokennfttx&address=${owner}&page=1&offset=100&startblock=0&endblock=27025780&sort=asc&apikey=YourApiKeyToken`
+      `https://api.etherscan.io/api?module=account&action=tokennfttx&address=${owner}&page=1&offset=100&startblock=0&endblock=27025780&sort=asc&apikey=${etherscanKey}`
     );
     const response = nfts.data.result;
     console.log(response);
